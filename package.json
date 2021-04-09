@@ -16,6 +16,6 @@
     "react-docgen-typescript": "^1.22.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
     "@types/react-syntax-highlighter": "^13.5.0",
-    "react-copy-to-clipboard": "^5.0.3",
+    "react-copy-to-clipboard": "^5.0.3"
   }
 }
