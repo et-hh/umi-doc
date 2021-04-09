@@ -80,7 +80,9 @@ module.exports = function(source) {
         // 获取依赖的组件的详情信息
         const componentInfo = getComponentInfo(source, resourcePath, componentName)
 
-        return `data={ getProps(${JSON.stringify(componentInfo.info)}, '${componentInfo.componentPath}', '${componentName}') }`
+        return `data={ getProps(${JSON.stringify(componentInfo.info)}, '${componentInfo.componentPath}', '${componentName.replace(/^(.)(.*)$/, function(str, firstChar, others) {
+          return firstChar.toLowerCase() + others
+        })}') }`
       })
       // 给UseCase组件加code属性，值为children的文本格式
       .replace(/<UseCase([\W\w]*?)(['"]{1})\s*>([\W\w]*?)<\/UseCase>/g, function(str, attrs, kuohao, code) {
