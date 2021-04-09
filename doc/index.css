@@ -1,0 +1,17 @@
+.components-doc {
+  padding-bottom: 20px;
+}
+.components-doc .ant-layout-content {
+  overflow: auto;
+}
+.components-doc .ant-layout-sider {
+  border-right: 1px solid #F2F3F5;
+  max-width: 100% !important;
+  flex: 0 0 257px !important;
+}
+.components-doc .ant-menu {
+  border: none;
+}
+.components-doc .ant-menu .ant-collapse-item {
+  border-radius: none;
+}
