@@ -6,7 +6,7 @@
 ### 安装
 
 ```javascript
-yarn add umi-doc@~1.0.0
+yarn add umi-doc
 ```
 
 
