@@ -80,7 +80,7 @@ export default () => {
 }
 ```
 
-访问路由后会出现如下页面：
+访问`componentsPage`路由后会出现如下页面：
 
 ![https://ai-call-platform.oss-cn-hangzhou.aliyuncs.com/CompanyWebsite/OfficialWebsite/NewsPicture/ifSxfJDoGw_1617947761500_企业微信截图_16179476924001.png](https://ai-call-platform.oss-cn-hangzhou.aliyuncs.com/CompanyWebsite/OfficialWebsite/NewsPicture/ifSxfJDoGw_1617947761500_企业微信截图_16179476924001.png)
 
