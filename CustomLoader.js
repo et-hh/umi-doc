@@ -12,6 +12,10 @@ const docFileSuffix = '.doc.tsx'
 const getAllDoc = (rootPath, callback) => {
   let rs = []
   fs.readdir(rootPath, function(err, files){
+    if (!files || !files.length) {
+      return callback(rs)
+    }
+
     let count = 0
     const checkEnd = () => {
       ++count === files.length && callback(rs)
