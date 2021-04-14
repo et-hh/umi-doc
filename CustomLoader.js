@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const docgen = require("react-docgen-typescript")
+const docgen = require("./lib")
 
 const options = {
   savePropValueAsString: true,
