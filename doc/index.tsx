@@ -126,8 +126,9 @@ export const UseCase = ({
   children,
   code = '',
   title,
-  des
-}: { children: any, code?: string, title: string, des?: string }) => {
+  des,
+  wrapStyle = {}
+}: { children: any, code?: string, title: string, des?: string, wrapStyle?: CSSProperties }) => {
   return (
     <>
       <div style={{ fontSize: '16px', lineHeight: '22px', color: '#2E3846', fontWeight: 600, marginTop: '55px' }}
@@ -137,7 +138,7 @@ export const UseCase = ({
           <div style={{ fontSize: '14px', lineHeight: '20px', color: '#575D6C', marginTop: '14px' }}>{ des }</div>
       }
       <div style={{ marginTop: '15px', borderRadius: '2px', boxShadow: '2px 2px 10px 0px rgba(100, 124, 153, 0.21), 0px 0px 0px 1px rgba(81, 94, 111, 0.04)' }}>
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', ...wrapStyle }}>
           { children }
         </div>
 
