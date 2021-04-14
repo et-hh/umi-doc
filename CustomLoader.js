@@ -104,7 +104,7 @@ module.exports = function(source) {
         null,
         // 插入对组件描述文件的引入
         source.replace('// todo import docs', rs.map((info, index) =>
-          `import Doc${index}, { ${info.infoName}DocInfo } from '${info.importPath.replace('./src/components/', '')}'\r\n`
+          `import Doc${index}, { docInfo as ${info.infoName}DocInfo } from '${info.importPath.replace('./src/components/', '')}'\r\n`
         ).join(''))
         // 插入对组件应用代码
         .replace('// todo components def', `

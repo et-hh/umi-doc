@@ -50,8 +50,8 @@ import React from 'react'
 import NameAndAge from './index'
 
 
-// 此对象名称必须是：${文件名}DocInfo，比如nameAndAge.doc.tsx应该导出nameAndAgeDocInfo
-export const nameAndAgeDocInfo = {
+// doc信息
+export const docInfo = {
   title: 'NameAndAge 姓名和年龄',
   des: '显示客户的姓名和年龄',
   importStatement: `import NameAndAge from 'nameAndAge'`
