@@ -1,6 +1,6 @@
 ## umi doc工具
 
-配合`umi`框架使用的文档工具
+配合`umi`框架使用的文档工具 [项目地址](https://github.com/zhouJiecode/umi-doc)
 
 
 ### 安装
