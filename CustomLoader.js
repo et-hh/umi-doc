@@ -11,35 +11,33 @@ const docFileSuffix = '.doc.tsx'
 
 const getAllDoc = (rootPath, callback) => {
   let rs = []
-  fs.readdir(rootPath, function(err, files){
-    if (!files || !files.length) {
-      return callback(rs)
-    }
+  const files = fs.readdirSync(rootPath);
+  if (!files || !files.length) {
+    return callback(rs)
+  }
 
-    let count = 0
-    const checkEnd = () => {
-      ++count === files.length && callback(rs)
-    }
-    files.forEach( function (file) {
-      const filePath = rootPath + '/' + file //path.resolve(__dirname, 'src/components/' + file)
-      fs.stat(filePath, function (err, stats) {
-        if (stats.isFile()) {
-          if (file && file.includes(docFileSuffix)) {
-            rs.push({
-              importPath: filePath,
-              infoName: file.replace(docFileSuffix, '')
-            })
-          }
+  let count = 0
+  const checkEnd = () => {
+    ++count === files.length && callback(rs)
+  }
+  files.forEach( function (file) {
+    const filePath = rootPath + '/' + file //path.resolve(__dirname, 'src/components/' + file)
+    const stats = fs.statSync(filePath)
+    if (stats.isFile()) {
+      if (file && file.includes(docFileSuffix)) {
+        rs.push({
+          importPath: filePath,
+          infoName: file.replace(docFileSuffix, '')
+        })
+      }
 
-          checkEnd()
-        } else if (stats.isDirectory()) {
-          getAllDoc(filePath, arr => {
-            rs = [...rs, ...arr]
-            checkEnd()
-          })
-        }
+      checkEnd()
+    } else if (stats.isDirectory()) {
+      getAllDoc(filePath, arr => {
+        rs = [...rs, ...arr]
+        checkEnd()
       })
-    });
+    }
   });
 }
 
