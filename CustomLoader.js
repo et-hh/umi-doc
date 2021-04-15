@@ -102,16 +102,16 @@ module.exports = function(source) {
         null,
         // 插入对组件描述文件的引入
         source.replace('// todo import docs', rs.map((info, index) =>
-          `import Doc${index}, { docInfo as ${info.infoName}DocInfo } from '${info.importPath.replace('./src/components/', '')}'\r\n`
+          `import Doc${index}, { docInfo as DocInfo${index} } from '${info.importPath.replace('./src/components/', '')}'\r\n`
         ).join(''))
         // 插入对组件应用代码
         .replace('// todo components def', `
           components = [
-            ${rs.map((info, index) => info.infoName + 'DocInfo').join(', ')}
+            ${rs.map((info, index) => 'DocInfo' + index).join(', ')}
           ]
           componentsMap = new Map()
           ${
-            rs.map((info, index) => `componentsMap.set(${info.infoName + 'DocInfo'}, <${'Doc' + index} />)\r\n`).join('')
+            rs.map((info, index) => `componentsMap.set(DocInfo${index}, <${'Doc' + index} />)\r\n`).join('')
           }
         `)
       )

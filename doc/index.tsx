@@ -49,6 +49,7 @@ export const getProps = (info: any, componentPath: any, componentName: any) => {
   if (!componentInfo) {
     componentInfo = info.find((it: any) => {
       const keys = Object.keys(it.props)
+      if (!it.props[keys[0]]) return false
       if (it.props[keys[0]].parent) {
         return componentPath && it.props[keys[0]].parent.fileName.split('src')[1] === componentPath
       } else {
