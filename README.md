@@ -2,6 +2,11 @@
 
 配合`umi`框架使用的文档工具 [项目地址](https://github.com/zhouJiecode/umi-doc)
 
+### 优点
+- 使用简单，针对每个组件编写一个文档文件，运行umi项目后访问`componentsPage`路由即可
+- 使用简单，此插件直接使用umi项目本身的webpack配置，无需任何额外webpack配置
+- 提供`props`,`useCase`两个组件分别用于解析属性和编写用例，编写文档方便
+
 
 ### 安装
 
