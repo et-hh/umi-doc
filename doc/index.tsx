@@ -141,7 +141,7 @@ export const UseCase = ({
           <div style={{ fontSize: '14px', lineHeight: '20px', color: '#575D6C', marginTop: '14px' }}>{ des }</div>
       }
       <div style={{ marginTop: '15px', borderRadius: '2px', boxShadow: '2px 2px 10px 0px rgba(100, 124, 153, 0.21), 0px 0px 0px 1px rgba(81, 94, 111, 0.04)' }}>
-        <div style={{ padding: '20px', ...wrapStyle }}>
+        <div style={{ padding: '20px', position: 'relative', ...wrapStyle }}>
           { children }
         </div>
 
