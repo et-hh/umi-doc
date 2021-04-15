@@ -125,10 +125,13 @@ export const Props = ({ data, name }: { data?: any[], of?: any, name?: string | 
 export const UseCase = ({
   children,
   code = '',
+  prefixCode = '',
   title,
   des,
   wrapStyle = {}
-}: { children: any, code?: string, title: string, des?: string, wrapStyle?: CSSProperties }) => {
+}: { children: any, prefixCode?: string, code?: string, title: string, des?: string, wrapStyle?: CSSProperties }) => {
+  const showCode = (prefixCode ? ('        ' + prefixCode + '\r\n') : '') + code
+
   return (
     <>
       <div style={{ fontSize: '16px', lineHeight: '22px', color: '#2E3846', fontWeight: 600, marginTop: '55px' }}
@@ -153,7 +156,7 @@ export const UseCase = ({
               </Tooltip>
               <Tooltip title="复制代码" onClick={(e: any) => e.stopPropagation()}>
                 <CopyToClipboard
-                  text={ code }
+                  text={ showCode }
                   onCopy={() => message.success('复制成功')}
                   onClick={(e: any) => e.stopPropagation()}
                 >
@@ -163,7 +166,7 @@ export const UseCase = ({
             </> }
           >
             <SyntaxHighlighter customStyle={{ textAlign: 'left' }} language="jsx" style={coy}>
-              { code }
+              { showCode }
             </SyntaxHighlighter>
           </Panel>
         </Collapse>

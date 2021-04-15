@@ -97,3 +97,4 @@ export default () => {
 |  ----  | ----  |
 | title  | 用例标题，必填 |
 | des  | 用例描述 |
+| prefixCode  | 前置代码，比如一些获取数据的js代码 |
