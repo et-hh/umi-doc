@@ -7,7 +7,7 @@ import { Menu, Layout, Collapse, Tooltip, message, Table, Tag } from 'antd'
 import _get from 'lodash/fp/get'
 import React, { useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import './index.css'
 
@@ -33,7 +33,7 @@ const ImportStatement = ({ text }: { text: string }) => {
     <>
     <div
       style={{ fontSize: '16px', lineHeight: '22px', color: '#2E3846', fontWeight: 600 }}>引入组件</div>
-      <SyntaxHighlighter customStyle={{ textAlign: 'left' }} language="javascript" style={coy}>
+      <SyntaxHighlighter customStyle={{ textAlign: 'left' }} language="jsx" style={coy}>
         {text}
       </SyntaxHighlighter></>
   )
@@ -90,7 +90,7 @@ export const Props = ({ data, name }: { data?: any[], of?: any, name?: string | 
           <>
             {
               row.description &&
-                <span style={{ display: 'inline-block', marginRight: '6px' }}>{row.description}</span>
+                <span style={{ display: 'inline-block', marginRight: '6px', lineHeight: '20px' }}>{row.description}</span>
             }
             {
               row.required &&
@@ -162,7 +162,7 @@ export const UseCase = ({
               </Tooltip>
             </> }
           >
-            <SyntaxHighlighter customStyle={{ textAlign: 'left' }} language="html" style={coy}>
+            <SyntaxHighlighter customStyle={{ textAlign: 'left' }} language="jsx" style={coy}>
               { code }
             </SyntaxHighlighter>
           </Panel>

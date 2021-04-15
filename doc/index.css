@@ -4,6 +4,10 @@
 .components-doc .ant-layout-content {
   overflow: auto;
 }
+.components-doc .ant-layout-sider-children {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .components-doc .ant-layout-sider {
   border-right: 1px solid #F2F3F5;
   max-width: 100% !important;
@@ -11,6 +15,10 @@
 }
 .components-doc .ant-menu {
   border: none;
+}
+.components-doc .ant-menu .ant-menu-item {
+  font-size: 13px;
+  /* padding-left: 32px !important; */
 }
 .components-doc .ant-menu .ant-collapse-item {
   border-radius: none;
