@@ -73,6 +73,8 @@ const getComponentInfo = (source, resourcePath, componentName) => {
 module.exports = function(source) {
   var callback = this.async();
   const resourcePath = this.resourcePath || ''
+  // 获取alias
+  // console.log(this._compilation.options.resolve.alias)
   
   // 单个组件的文档
   if (resourcePath.includes(docFileSuffix)) {
