@@ -8,6 +8,6 @@ module.exports = async function (source) {
 
   const code = `export const docInfo = ${JSON.stringify(attributes)}
 ${body}`
-console.log(code)
+
   return callback(null, code)
 }
