@@ -7,7 +7,7 @@ const options = {
   shouldRemoveUndefinedFromOptional: false,
 }
 
-const docFileSuffix = '.doc.tsx'
+const docFileSuffix = /.doc.(tsx|mdx)/
 
 const getAllDoc = (rootPath, callback) => {
   let rs = []
@@ -24,7 +24,7 @@ const getAllDoc = (rootPath, callback) => {
     const filePath = rootPath + '/' + file //path.resolve(__dirname, 'src/components/' + file)
     const stats = fs.statSync(filePath)
     if (stats.isFile()) {
-      if (file && file.includes(docFileSuffix)) {
+      if (file && file.match(docFileSuffix)) {
         rs.push({
           importPath: filePath,
           infoName: file.replace(docFileSuffix, '')
@@ -77,7 +77,7 @@ module.exports = function(source) {
   // console.log(this._compilation.options.resolve.alias)
   
   // 单个组件的文档
-  if (resourcePath.includes(docFileSuffix)) {
+  if (resourcePath.match(docFileSuffix)) {
     const rs = source
       // 将<Props of={ AvatarGroup } />替换为<Props data={ getProps(/*组件信息*/, /*组件名*/) } />
       .replace(/of=\{\s*([a-zA-Z_]+)\s*\}/g, function(str, componentName) {
