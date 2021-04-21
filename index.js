@@ -11,7 +11,7 @@ module.exports = function (api) {
   api.chainWebpack((config) => {
     config.module
       .rule('doc')
-        .test(/\.doc\.mdx$/)
+        .test(/\.mdx$/)
         .include
           .add(/components/)
           .end()
