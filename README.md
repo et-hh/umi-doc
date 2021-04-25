@@ -32,7 +32,7 @@ plugins: [
 
 ### 编写组件文档
 
-文档格式是`xx.doc.tsx`，并且必须编写在components文件夹下
+文档格式是`MDX`，并且必须编写在components文件夹下
 
 比如有一个组件：`src\components\nameAndAge\index.tsx`
 ```javascript
@@ -47,42 +47,33 @@ const NameAndAge = ({ name, age = 1 }: NameAndAgeProps) => {
 
 export default NameAndAge
 ```
-编写对应文档：`src\components\nameAndAge\nameAndAge.doc.tsx`
+编写对应文档：`src\components\nameAndAge\nameAndAge.mdx`
 
 ```javascript
+---
+title: NameAndAge 姓名和年龄
+des: 显示客户的姓名和年龄
+importStatement: import NameAndAge from 'nameAndAge'
+---
+
 import { Props, UseCase } from '@@/doc'
-import React from 'react'
 import NameAndAge from './index'
 
+<UseCase
+  title="基础用法"
+  des="可以这么用"
+>
+  <NameAndAge name='张三' />
+</UseCase>
 
-// doc信息
-export const docInfo = {
-  title: 'NameAndAge 姓名和年龄',
-  des: '显示客户的姓名和年龄',
-  importStatement: `import NameAndAge from 'nameAndAge'`
-}
+<UseCase
+  title="另外的用法"
+  des="也可以这么用"
+>
+  <NameAndAge name='李四' age={26} />
+</UseCase>
 
-export default () => {
-  return (
-    <>
-      <UseCase
-        title="基础用法"
-        des="可以这么用"
-      >
-        <NameAndAge name='张三' />
-      </UseCase>
-
-      <UseCase
-        title="另外的用法"
-        des="也可以这么用"
-      >
-        <NameAndAge name='李四' age={26} />
-      </UseCase>
-
-      <Props of={ NameAndAge } />
-    </>
-  )
-}
+<Props of={ NameAndAge } />
 ```
 
 访问`componentsPage`路由后会出现如下页面：
