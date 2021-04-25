@@ -5,6 +5,15 @@ const docIndexContent = fs.readFileSync(path.resolve(__dirname, './doc/index.tsx
 const cssContext = fs.readFileSync(path.resolve(__dirname, './doc/index.css'))
 
 module.exports = function (api) {
+  api.describe({
+    key: 'docExclude',
+    config: {
+      schema(joi) {
+        return joi.alternatives().try(joi.string(), joi.object().instance(RegExp));
+      },
+    },
+  })
+
   api.modifyRoutes((routes) => {
     return [{ path: '/componentsPage', component: path.resolve(__dirname, '../../src/.umi/doc') }, ...routes]
   })
@@ -29,6 +38,10 @@ module.exports = function (api) {
           .loader('umi-doc/mdxLoader')
         
     config.module.rule('js').use('custom').loader('umi-doc/CustomLoader')
+    config.module.rule('js').use('tsxProps').loader('umi-doc/customTsxLoader').options({
+      exclude: api.userConfig.docExclude
+    })
+    
     return config
   })
   api.onGenerateFiles(() => {
