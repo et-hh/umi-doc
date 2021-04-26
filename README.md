@@ -6,6 +6,8 @@
 - 使用简单，针对每个组件编写一个文档文件，运行umi项目后访问`componentsPage`路由即可
 - 使用简单，此插件直接使用umi项目本身的webpack配置，无需任何额外webpack配置
 - 提供`props`,`useCase`两个组件分别用于解析属性和编写用例，编写文档方便
+- 使用`MDX`格式编写文件，清晰简洁
+- 不给项目启动速度加负，除第一次启动项目，后续启动项目速度无限接近不使用此插件时
 
 
 ### 安装
@@ -21,7 +23,10 @@ yarn add umi-doc
 ```javascript
 plugins: [
   require.resolve('umi-doc')
-]
+],
+// 本插件默认解析umi项目下src\components目录，如果此目录中还存在一些不需要被解析的文件或目录，可以使用此umi配置进行exclude
+// 注：此umi配置官方并不存在，是本插件生成的
+docExclude: /common|tableColumn/
 ```
 
 
