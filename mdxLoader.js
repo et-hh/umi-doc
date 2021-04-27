@@ -51,6 +51,8 @@ module.exports = async function (source) {
   const resourcePath = this.resourcePath || ''
   const components = []
 
+  // 识别jsx属性值
+  const propReg = `\\s*[a-zA-Z0-9_]+={?([\`'"])[\\w\\W]*?\\3}?\\s*`
   const rs = body
     // 将<Props of={ AvatarGroup } />替换为<Props data={ getProps(/*组件信息*/, /*组件名*/) } />
     .replace(/of=\{\s*([a-zA-Z_]+)\s*\}/g, function(str, componentName) {
@@ -63,8 +65,8 @@ module.exports = async function (source) {
       return `data={ getProps(_ts_type_info_${componentInfo.hash}, '${componentInfo.componentPath}', '${firstChartLowCase(componentName)}') }`
     })
     // 给UseCase组件加code属性，值为children的文本格式
-    .replace(/<UseCase([\W\w]*?)(['"]{1})\s*>([\W\w]*?)<\/UseCase>/g, function(str, attrs, kuohao, code) {
-      return `<UseCase${attrs + kuohao}\r\ncode={\`${code.replace(/\`/g, '\\`')}\`}>${code}</UseCase>`
+    .replace(new RegExp(`<UseCase((${propReg})*)>(([\\w\\W](?!UseCase))*?)<\\/UseCase>`, 'g'), function(str, attrs, $2, $3, code) {
+      return `<UseCase${attrs} code={\`${code.replace(/\`/g, '\\`')}\`}>${code}</UseCase>`
     })
     // 处理js代码
     .replace(/<\!-- js start -->([\W\w]*?)<\!-- js end -->/g, function (str, code) {
