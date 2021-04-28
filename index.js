@@ -1,20 +1,46 @@
 const path = require('path')
 const fs = require('fs')
 
-const docIndexContent = fs.readFileSync(path.resolve(__dirname, './doc/index.tsx'))
+let docIndexContent = fs.readFileSync(path.resolve(__dirname, './doc/index.tsx'))
 const cssContext = fs.readFileSync(path.resolve(__dirname, './doc/index.css'))
 
 module.exports = function (api) {
+
   api.describe({
-    key: 'docExclude',
+    key: 'docConfig',
     config: {
+      default: {
+        docExclude: '',
+        showDocHeader: true,
+        docLayout: ''
+      },
       schema(joi) {
-        return joi.alternatives().try(joi.string(), joi.object().instance(RegExp));
+        return joi.object({
+          docExclude: joi.alternatives().try(joi.string(), joi.object().instance(RegExp)),
+          showDocHeader: joi.boolean(),
+          docLayout: joi.string()
+        })
       },
     },
   })
 
+  const { docExclude, showDocHeader, docLayout } = api.userConfig.docConfig
+  
   api.modifyRoutes((routes) => {
+    if (docLayout) {
+      return [
+        {
+          path: '/componentsPage',
+          component: docLayout,
+          routes: [
+            {
+              path: '/',
+              component: path.resolve(__dirname, '../../src/.umi/doc')
+            }
+          ]
+        }
+      ]
+    }
     return [{ path: '/componentsPage', component: path.resolve(__dirname, '../../src/.umi/doc') }, ...routes]
   })
   api.chainWebpack((config) => {
@@ -38,12 +64,21 @@ module.exports = function (api) {
           .loader('umi-doc/mdxLoader')
         
     config.module.rule('js').use('custom').loader('umi-doc/CustomLoader')
-    config.module.rule('js').use('tsxProps').loader('umi-doc/customTsxLoader').options({
-      exclude: api.userConfig.docExclude
-    })
-    
+    const jsModule = config.module.rule('js').use('tsxProps').loader('umi-doc/customTsxLoader')
+    if(docExclude) {
+      jsModule.options({
+        exclude: docExclude
+      })
+    }
+
     return config
   })
+
+  docIndexContent = docIndexContent.toString()
+  if (!showDocHeader) {
+    docIndexContent = docIndexContent.replace('showDocHeader = true', 'showDocHeader = false')
+  }
+
   api.onGenerateFiles(() => {
     api.writeTmpFile({
       path: 'doc/index.tsx',

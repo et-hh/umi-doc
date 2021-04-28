@@ -23,3 +23,6 @@
 .components-doc .ant-menu .ant-collapse-item {
   border-radius: none;
 }
+.components-doc .import-wrap code {
+  white-space: normal !important;
+}

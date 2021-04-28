@@ -22,11 +22,20 @@ yarn add umi-doc
 在`.umirc.ts`中加上配置：
 ```javascript
 plugins: [
-  require.resolve('umi-doc')
+  'umi-doc'
 ],
-// 本插件默认解析umi项目下src\components目录，如果此目录中还存在一些不需要被解析的文件或目录，可以使用此umi配置进行exclude
 // 注：此umi配置官方并不存在，是本插件生成的
-docExclude: /common|tableColumn/
+docConfig: {
+  // 本插件默认解析umi项目下src\components目录下的tsx文件，如果此目录中还存在一些不需要被解析的tsx文件或包含tsx文件的目录，可以使用此umi配置进行exclude
+  // 注：此选项不作用于mdx文件，components下所有mdx均被解析
+  docExclude: /common|tableColumn/,
+  // 是否显示umi-doc内置header
+  showDocHeader: false,
+  // 是否使用自定义layout 
+  // 作用：如果某些组件的运行依赖本项目中存在一些全局状态或者全局组件，可以自定义layout来对他们进行声明或引入
+  // 对umi项目来说,一般可以直接使用默认的src/layouts即可
+  docLayout: path.resolve(__dirname, 'src/layouts'),
+}
 ```
 
 
