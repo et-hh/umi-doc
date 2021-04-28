@@ -94,6 +94,108 @@ import NameAndAge from './index'
 
 ![https://ai-call-platform.oss-cn-hangzhou.aliyuncs.com/CompanyWebsite/OfficialWebsite/NewsPicture/ifSxfJDoGw_1617947761500_企业微信截图_16179476924001.png](https://ai-call-platform.oss-cn-hangzhou.aliyuncs.com/CompanyWebsite/OfficialWebsite/NewsPicture/ifSxfJDoGw_1617947761500_企业微信截图_16179476924001.png)
 
+### MDX文档中的js
+
+某些组件可能要通过js预取数据以模拟真实情况,就需要在mdx中编写js获取数据<br>
+本插件支持：MDX中包裹在`<!-- js start -->`和`<!-- js end -->`之间的代码会被当js执行<br>
+如下编写即可：
+
+```javascript
+---
+title: membersSelect 选择客户下拉框
+des: 选择客户下拉框
+importStatement: import MembersSelect from 'membersSelect'
+---
+
+import { Props, UseCase } from '@@/doc'
+import { Spin } from 'antd'
+import { useEffect, useState } from 'react'
+import { debounce } from 'utils/helper'
+import MembersSelect from './index'
+
+<!-- js start -->
+// 获取员工列表
+const [userList, setUserList] = useState([])
+const [fetchingUserList, setFetchingUserList] = useState(false)
+const fetchAssitList = async(searchName) => {
+  setFetchingUserList(true)
+  try {
+    const rs = [{
+      avatarUrl: 'http://wework.qpic.cn/bizmail/83S0BJQhebRzylXFvcN1S1ibEiaYvORoIk43jO5Z7l3rSiaA4oa5VzGjw/0',
+      name: '木木|客户成功经理',
+      userId: 222,
+    }, {
+      avatarUrl: 'http://wework.qpic.cn/bizmail/slLBzAPmdCJIhv9iaQQ6O18VU0L6NfaNNEMibMASoJO96sGaC53OKFhA/0',
+      name: '刘秀',
+      userId: 248,
+    }]
+    setUserList(rs)
+    return rs
+  } finally {
+    setFetchingUserList(false)
+  }
+}
+useEffect(() => {
+  fetchAssitList(undefined)
+}, [])
+<!-- js end -->
+
+<UseCase
+  title="基础用法"
+  des="默认单选"
+>
+  <MembersSelect hasDefaultItem={ true } placeholder="请选择群主" style={{ width: '360px' }} />
+</UseCase>
+
+<UseCase
+  // 这里可以传入预取数据的js代码，最终会在文档的代码预览中展示出来
+  prefixCode={`// 获取员工列表
+  const [userList, setUserList] = useState([])
+  const [fetchingUserList, setFetchingUserList] = useState(false)
+  const fetchAssitList = async(searchName: string | undefined) => {
+    setFetchingUserList(true)
+    try {
+      const rs = [{
+        avatarUrl: 'http://wework.qpic.cn/bizmail/83S0BJQhebRzylXFvcN1S1ibEiaYvORoIk43jO5Z7l3rSiaA4oa5VzGjw/0',
+        name: '木木|客户成功经理',
+        userId: 222,
+      }, {
+        avatarUrl: 'http://wework.qpic.cn/bizmail/slLBzAPmdCJIhv9iaQQ6O18VU0L6NfaNNEMibMASoJO96sGaC53OKFhA/0',
+        name: '刘秀',
+        userId: 248,
+      }]
+      setUserList(rs)
+      return rs
+    } finally {
+      setFetchingUserList(false)
+    }
+  }
+  useEffect(() => {
+    fetchAssitList(undefined)
+  }, [])`}
+  title="基础用法"
+  des="多选，数据由组件库外部获取或过滤"
+>
+  <MembersSelect
+    searchOutside={ true }
+    memberList={ userList }
+    mode="multiple"
+    placeholder="请选择员工"
+    disabled={ false }
+    showArrow={ true }
+    style={{ width: '430px' }}
+    notFoundContent={ fetchingUserList ? <Spin size="small" /> : undefined }
+    onSearch={ debounce((fetchAssitList), 200) }
+    onBlur={ debounce(() => fetchAssitList(undefined), 200) }
+    optionDisabledFilter={
+      option => false
+    }
+  />
+</UseCase>
+  
+<Props of={ MembersSelect } />
+```
+
 ### 组件
 
 #### Props
