@@ -38,7 +38,8 @@ module.exports = function (api) {
               component: path.resolve(__dirname, '../../src/.umi/doc')
             }
           ]
-        }
+        },
+        ...routes
       ]
     }
     return [{ path: '/componentsPage', component: path.resolve(__dirname, '../../src/.umi/doc') }, ...routes]
