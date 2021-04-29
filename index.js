@@ -27,6 +27,7 @@ module.exports = function (api) {
   const { docExclude, showDocHeader, docLayout } = api.userConfig.docConfig
   
   api.modifyRoutes((routes) => {
+    const docPath = `../../src/${process.env.NODE_ENV === 'development' ? '.umi' : '.umi-production'}/doc`
     if (docLayout) {
       return [
         {
@@ -35,14 +36,14 @@ module.exports = function (api) {
           routes: [
             {
               path: '/',
-              component: path.resolve(__dirname, '../../src/.umi/doc')
+              component: path.resolve(__dirname, docPath)
             }
           ]
         },
         ...routes
       ]
     }
-    return [{ path: '/componentsPage', component: path.resolve(__dirname, '../../src/.umi/doc') }, ...routes]
+    return [{ path: '/componentsPage', component: path.resolve(__dirname, docPath) }, ...routes]
   })
   api.chainWebpack((config) => {
     config.module
