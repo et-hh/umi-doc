@@ -211,3 +211,39 @@ useEffect(() => {
 | des  | 用例描述 |
 | prefixCode  | 前置代码，比如一些获取数据的js代码 |
 | wrapStyle  | 自定义容器样式 |
+
+### 优化编译速度(可选)
+总的思想是将typescript属性缓存下来，避免重新读取每个文件的typescript属性数据
+
+本插件在node_modules里有一个属性缓存目录：`propsCache`,本地`run dev`优化其实就是每次取属性时判断缓存里有没有对应文件的属性，如果没有才去解析`typescript`，而整个插件就这个解析步骤比较耗时。因此本地第一次跑会多几十秒的时间，后续就跟不使用此插件差不多了
+
+但由于现在部署一般走的自动化部署流程，拉代码->`yarn`->`build`，而每次重新拉代码再`yarn`会导致属性无法被预先缓存住,所以提供两个思路：
+
+- 每次`build`之后将`package.json`、`node_modules`使用`tar`压缩缓存到某个地方，每次`yarn`前比较当前`package.json`和缓存的`package.json`，如果不同，就`yarn`,相同则直接从缓存中把`node_modules`拉下来`tar`解压。本人使用的是`bamboo`,配置`yarn`流程如下：
+```javascript
+file1=package.json
+file2=/opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/package.json
+diff $file1 $file2 > /dev/null
+if [ $? == 0 ]; then
+    echo "same!"
+    cp /opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/node_modules.tar.gz ./node_modules.tar.gz
+    tar -xzf node_modules.tar.gz
+    rm -rf node_modules.tar.gz
+else
+    echo "different!"
+    yarn
+fi
+```
+`build`流程如下：
+```javascript
+npm run build:daily
+tar -czf node_modules.tar.gz ./node_modules
+rm -rf /opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/node_modules.tar.gz
+rm -rf /opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/package.json
+cp ./package.json /opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/package.json
+cp ./node_modules.tar.gz /opt/atlassian/bamboo-home/xml-data/build-dir/scrm_nodeModules_cache/node_modules.tar.gz
+```
+
+- 每次编译后取出`node_modules/umi-doc/propsCache`缓存到指定目录，每次`yarn`后取出缓存覆盖`node_modules/umi-doc/propsCache`
+
+本人采用的第一种方式，结果是发布时间从5min变成3min
